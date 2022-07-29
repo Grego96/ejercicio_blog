@@ -7,4 +7,5 @@ const articleController = require("../controllers/articleController");
 
 publicRouter.get("/", pageController.showHome);
 publicRouter.get("/article/:id", articleController.show);
+publicRouter.get("/api/article/:id", articleController.api);
 module.exports = publicRouter;

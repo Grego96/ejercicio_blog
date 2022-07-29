@@ -1,7 +1,10 @@
 const { Article } = require("../models");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function api(req, res) {
+  const apiArticle = await Article.findByPk(req.params.id);
+  res.json(apiArticle);
+}
 
 // Display the specified resource.
 async function show(req, res) {
@@ -28,7 +31,7 @@ async function destroy(req, res) {}
 // ...
 
 module.exports = {
-  index,
+  api,
   show,
   create,
   store,
