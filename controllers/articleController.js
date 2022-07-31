@@ -3,13 +3,21 @@ const { Article } = require("../models");
 // Display a listing of the resource.
 async function api(req, res) {
   const apiArticle = await Article.findByPk(req.params.id);
-  res.json(apiArticle);
+  if (apiArticle === null) {
+    res.status(404).send('Not Found');
+  } else {
+    res.json(apiArticle);
+  }
 }
 
 // Display the specified resource.
 async function show(req, res) {
   const article = await Article.findByPk(req.params.id);
-  res.render("contact", { article });
+  if (article === null) {
+    res.status(404).send('Not Found');
+  } else {
+    res.render("contact", { article });
+  }
 }
 
 // Show the form for creating a new resource
