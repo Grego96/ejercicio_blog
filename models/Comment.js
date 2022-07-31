@@ -15,3 +15,5 @@ module.exports = (sequelize, Model, DataTypes) => {
 
   return Comment;
 };
+
+// git a
