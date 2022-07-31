@@ -1,10 +1,12 @@
-const { Article } = require("../models");
+const { Article, User, Comment } = require("../models");
 
 // Display a listing of the resource.
 async function api(req, res) {
-  const apiArticle = await Article.findByPk(req.params.id);
+  const apiArticle = await Article.findByPk(req.params.id, {
+    include: [User, { model: Comment, as: "comments" }],
+  });
   if (apiArticle === null) {
-    res.status(404).send('Not Found');
+    res.status(404).send("Not Found");
   } else {
     res.json(apiArticle);
   }
@@ -12,9 +14,11 @@ async function api(req, res) {
 
 // Display the specified resource.
 async function show(req, res) {
-  const article = await Article.findByPk(req.params.id);
+  const article = await Article.findByPk(req.params.id, {
+    include: [User, { model: Comment, as: "comments" }],
+  });
   if (article === null) {
-    res.status(404).send('Not Found');
+    res.status(404).send("Not Found");
   } else {
     res.render("contact", { article });
   }

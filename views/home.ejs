@@ -35,6 +35,7 @@
               <th class="text-center" scope="col">Id</th>
               <th class="text-center" scope="col">Título</th>
               <th class="text-center" scope="col">Contenido</th>
+              <th class="text-center" scope="col">Autor</th>
             </tr>
           </thead>
           <tbody>
@@ -43,6 +44,7 @@
               <th class="text-center" scope="row"><%=article.id%></th>
               <td class="text-center"><%=article.title%></td>
               <td class="text-center"><%=article.content%></td>
+              <td class="text-center"><%=article.user.firstname%> <%=article.user.lastname%></td>
             </tr>
             <% } %>
           </tbody>
