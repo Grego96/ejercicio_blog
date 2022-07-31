@@ -3,6 +3,11 @@ module.exports = (sequelize, Model, DataTypes) => {
 
   Comment.init(
     {
+      id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       content: {
         type: DataTypes.TEXT,
       },
@@ -10,7 +15,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     {
       sequelize,
       modelName: "comment",
-    }
+    },
   );
 
   return Comment;
