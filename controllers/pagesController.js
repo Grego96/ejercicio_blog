@@ -6,7 +6,7 @@ async function showHome(req, res) {
 }
 
 async function showContact(req, res) {
-  res.render("contact");
+  res.render("article");
 }
 
 async function showAboutUs(req, res) {

@@ -20,7 +20,7 @@ async function show(req, res) {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("contact", { article });
+    res.render("article", { article });
   }
 }
 
