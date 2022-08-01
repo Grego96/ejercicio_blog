@@ -10,18 +10,12 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Document</title>
   </head>
   <body>
+    <%- include("partials/adminNavbar") %>
     <div class="container">
-      <div class="row">
-        <div class="col-9">
-          <h1>Listado de usuarios</h1>
-        </div>
-        <div class="col-3 d-flex align-items-center justify-content-end">
-          <a type="button" class="btn btn-success" href="/">Volver a Usuario</a>
-        </div>
-      </div>
       <div class="row">
         <% for(let article of articles){ %>
         <div class="card shadow my-3 px-0">
