@@ -10,28 +10,29 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Document</title>
   </head>
   <body>
+    <%- include("partials/adminNavbar") %>
     <div class="container">
-      <div class="row">
-        <div class="col-9">
-          <h1>Listado de usuarios</h1>
-        </div>
-        <div class="col-3 d-flex align-items-center justify-content-end">
-          <a type="button" class="btn btn-success" href="/usuarios/crear">Nuevo</a>
-        </div>
-      </div>
       <div class="row">
         <div class="card mb-3 px-0">
           <div class="card-header"><%=article.user.firstname%> <%=article.user.lastname%></div>
           <div class="row g-0">
-            <div class="col-md-4">
-              <img src="<%= article.image %> " class="img-fluid rounded-start" alt="..." />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <form action="/admin/article/<%= article.id %> " method="post">
+            <form
+              action="/admin/article/<%= article.id %> "
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="col-md-4">
+                <img src="<%= article.image %> " class="img-fluid rounded-start" alt="..." />
+                <br />
+                <label for="image">Cambiar Imagen</label>
+                <input type="file" name="image" id="image" />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
                   <label for="title">Titulo</label>
                   <input
                     type="text"
@@ -42,13 +43,13 @@
                   <br /><br />
                   <label for="content">Contenido</label>
                   <textarea name="content" id="" class="form-control" cols="20" rows="10">
-<%= article.content %></textarea
-                  >
+                    <%= article.content %>
+                  </textarea>
                   <br />
                   <button class="btn btn-success" type="submit">Guardar Cambios</button>
-                </form>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
