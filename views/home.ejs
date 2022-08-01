@@ -10,40 +10,82 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Document</title>
   </head>
   <body>
+    <%- include("partials/navbar") %>
     <div class="container">
       <div class="row">
-        <div class="col-9">
-          <h1>Listado de usuarios</h1>
+        <div class="col-12 d-flex justify-content-center">
+          <a type="button" class="btn btn-success mt-5" href="/create">Crear Nuevo Articulo</a>
         </div>
-        <div class="col-3 d-flex align-items-center justify-content-end">
-          <a type="button" class="btn btn-success mx-3" href="/create">Nuevo</a>
-          <a type="button" class="btn btn-success mx-3" href="/admin">Cambiar a Admin</a>
+        <div class="col-12">
+          <div class="card shadow my-5">
+            <div class="row g-0">
+              <div class="col-md-6 set-height">
+                <img
+                  src="/img/<%= articles[0].image %>"
+                  class="img-fluid rounded-start img-main"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-6 d-flex flex-column justify-content-center">
+                <div class="card-body d-flex flex-column justify-content-around">
+                  <h5 class="card-title"><%=articles[0].title%></h5>
+                  <p class="card-text">
+                    <%let contenido = articles[0].content%> <%= contenido.substring(0, 500) %>...
+                  </p>
+                  <div>
+                    <a href="/article/<%= articles[0].id %>" class="btn btn-primary w-30"
+                      >Leer más</a
+                    >
+                  </div>
+                  <p class="card-text">
+                    <small> <%=articles[0].user.firstname%> <%=articles[0].user.lastname%> </small>
+                    -
+                    <small class="text-muted">
+                      <%let fecha = articles[0].createdAt%> <%= fecha.getDate() + "-" +
+                      fecha.getMonth() + "-" + fecha.getFullYear() + ", " + fecha.getHours() + ":" +
+                      fecha.getMinutes(); %>
+                    </small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <table class="table table-striped table-bordered border-seconday">
-          <thead>
-            <tr>
-              <th class="text-center" scope="col">Título</th>
-              <th class="text-center" scope="col">Contenido</th>
-              <th class="text-center" scope="col">Autor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% for(let article of articles){ %>
-            <tr>
-              <td class="text-center">
-                <a href="/article/<%= article.id %>"><%=article.title%></a>
-              </td>
-              <td class="text-center"><%=article.content%></td>
-              <td class="text-center"><%=article.user.firstname%> <%=article.user.lastname%></td>
-            </tr>
+        <% for(let i = 1; i < articles.length; i++){ %>
+        <div class="col-4">
+          <div class="card mb-3 shadow">
+            <% if(articles[i].image.includes("http")) {%>
+            <img
+              src="<%= articles[i].image %>"
+              class="card-img-top img-fluid img-fixed-size"
+              alt=""
+            />
+            <% } else{%>
+            <img
+              src="/img/<%= articles[i].image %>"
+              class="card-img-top img-fluid img-fixed-size"
+              alt=""
+            />
             <% } %>
-          </tbody>
-        </table>
+            <div class="card-body">
+              <h5 class="card-title"><%=articles[i].title%></h5>
+              <p class="card-text">
+                <%=articles[i].user.firstname%> <%=articles[i].user.lastname%> -
+                <small class="text-muted">
+                  <%let fecha = articles[i].createdAt%> <%= fecha.getDate() + "-" + fecha.getMonth()
+                  + "-" + fecha.getFullYear() + ", " + fecha.getHours() + ":" + fecha.getMinutes();
+                  %>
+                </small>
+              </p>
+              <a href="/article/<%= articles[i].id %>" class="btn btn-primary">Leer más</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
       </div>
     </div>
   </body>

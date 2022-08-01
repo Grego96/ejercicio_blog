@@ -1,1 +1,16 @@
 /* Colocar aquí CSS "propio" */
+.img-fixed-size {
+  object-fit: cover;
+  height: 250px;
+  width: auto;
+}
+
+.set-height {
+  height: 400px;
+}
+
+.img-main {
+  object-fit: cover;
+  height: inherit;
+  width: 100%;
+}

@@ -13,16 +13,9 @@
     <title>Document</title>
   </head>
   <body>
+    <%- include("partials/navbar") %>
     <div class="container">
-      <div class="row">
-        <div class="col-9">
-          <h1>Listado de usuarios</h1>
-        </div>
-        <div class="col-3 d-flex align-items-center justify-content-end">
-          <a type="button" class="btn btn-success" href="/usuarios/crear">Nuevo</a>
-        </div>
-      </div>
-      <div class="row">
+      <div class="row mt-5">
         <table class="table table-striped table-bordered border-seconday">
           <thead>
             <tr>
