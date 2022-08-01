@@ -3,8 +3,8 @@ const { User, Article, Comment } = require("../models");
 // Display a listing of the resource.
 async function homeAdmin(req, res) {
   console.log("index");
-  const articles = await Article.findAll({ include: User });
-  res.render("home");
+  const articles = await Article.findAll({ order: [['createdAt', 'DESC']], include: User });
+  res.render("home", { articles });
 }
 
 // Display the specified resource.

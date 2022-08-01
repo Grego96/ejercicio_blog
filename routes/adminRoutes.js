@@ -5,7 +5,7 @@ const { User, Article, Comment } = require("../models");
 // Rutas del Admin:
 // ...
 adminRouter.get("/", async (req, res) => {
-  const articles = await Article.findAll({ include: User });
+  const articles = await Article.findAll({order: [['createdAt', 'DESC']], include: User });
   res.render("adminMainPage", { articles });
 });
 
