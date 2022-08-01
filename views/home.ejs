@@ -11,12 +11,6 @@
       crossorigin="anonymous"
     />
     <title>Document</title>
-    <style>
-      a {
-        color: white;
-        text-decoration: none;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
@@ -25,7 +19,8 @@
           <h1>Listado de usuarios</h1>
         </div>
         <div class="col-3 d-flex align-items-center justify-content-end">
-          <a type="button" class="btn btn-success" href="/admin">Cambiar a Admin</a>
+          <a type="button" class="btn btn-success mx-3" href="/create">Nuevo</a>
+          <a type="button" class="btn btn-success mx-3" href="/admin">Cambiar a Admin</a>
         </div>
       </div>
       <div class="row">
@@ -34,7 +29,6 @@
             <tr>
               <th class="text-center" scope="col">Id</th>
               <th class="text-center" scope="col">Título</th>
-              <th class="text-center" scope="col">Imagen</th>
               <th class="text-center" scope="col">Contenido</th>
               <th class="text-center" scope="col">Autor</th>
             </tr>
@@ -46,7 +40,6 @@
               <td class="text-center">
                 <a href="/article/<%= article.id %>"><%=article.title%></a>
               </td>
-              <td class="text-center"><img src="<%= article.image %>" alt="" width="100px" /></td>
               <td class="text-center"><%=article.content%></td>
               <td class="text-center"><%=article.user.firstname%> <%=article.user.lastname%></td>
             </tr>
