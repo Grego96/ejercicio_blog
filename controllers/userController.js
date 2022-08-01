@@ -1,7 +1,7 @@
 const { User } = require("../models");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function addComment(req, res) {}
 
 // Display the specified resource.
 async function show(req, res) {}
@@ -25,7 +25,7 @@ async function destroy(req, res) {}
 // ...
 
 module.exports = {
-  index,
+  addComment,
   show,
   create,
   store,

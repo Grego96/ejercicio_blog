@@ -1,7 +1,11 @@
-const { User } = require("../models");
+const { User, Article, Comment } = require("../models");
 
 // Display a listing of the resource.
-async function index(req, res) {}
+async function homeAdmin(req, res) {
+  console.log("index");
+  const articles = await Article.findAll({ include: User });
+  res.render("home");
+}
 
 // Display the specified resource.
 async function show(req, res) {}
@@ -13,23 +17,50 @@ async function create(req, res) {}
 async function store(req, res) {}
 
 // Show the form for editing the specified resource.
-async function edit(req, res) {}
+async function edit(req, res) {
+  const article = await Article.findByPk(req.params.id);
+  if (article === null) {
+    res.status(404).send("Not Found");
+  } else {
+    res.render("adminEdit", { article });
+  }
+}
 
 // Update the specified resource in storage.
-async function update(req, res) {}
+async function update(req, res) {
+  console.log(req.params);
+  const chosenArticle = await Article.findByPk(req.params.id);
+  console.log(chosenArticle);
+  await User.update(
+    { ...req.body },
+    {
+      where: { ...chosenArticle },
+    },
+  );
+  res.end(chosenArticle);
+}
 
 // Remove the specified resource from storage.
-async function destroy(req, res) {}
+async function destroy(req, res) {
+  const chosenArticle = await Article.findByPk(req.params.id, {
+    include: [User, { model: Comment, as: "comments" }],
+  });
+  await User.destroy({
+    where: {
+      ...chosenArticle,
+    },
+  });
+}
 
-// Otros handlers...
-// ...
+// // Otros handlers...
+// // ...
 
 module.exports = {
-  index,
-  show,
-  create,
-  store,
-  edit,
-  update,
-  destroy,
+  homeAdmin,
+  // show,
+  // create,
+  // store,
+  // edit,
+  // update,
+  // destroy,
 };
