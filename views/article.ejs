@@ -49,6 +49,22 @@
             </tr>
           </tbody>
         </table>
+        <form action="/article/<%= article.id %>  " method="post">
+          <div class="card-header">
+            <label for="firstname">Nombre</label>
+            <input class="form-control" type="text" name="firstname" />
+            <br /><br />
+            <label for="lastname">Apellido</label>
+            <input class="form-control" type="text" name="lastname" />
+            <br /><br />
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email" />
+            <br /><br />
+            <label for="content">Añade un comentario</label>
+            <textarea name="content" id="" cols="30" rows="10"></textarea>
+          </div>
+          <button class="btn btn-success" type="submit">Comentar</button>
+        </form>
       </div>
     </div>
   </body>

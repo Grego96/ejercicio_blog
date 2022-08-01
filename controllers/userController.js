@@ -25,12 +25,13 @@ async function findOrCreateUserAndComment(req, res) {
     } else {
       console.log("usuario existente");
     }
-    const comment = await Comment.create({
+    await Comment.create({
       content: req.body.content,
       articleId: req.params.id,
       userId: user.id,
     });
   }
+  res.redirect("/article/" + req.params.id);
 }
 
 async function createArticle(req, res) {
