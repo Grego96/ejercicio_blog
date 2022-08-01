@@ -6,15 +6,16 @@ const { User, Article, Comment } = require("../models");
 // ...
 adminRouter.get("/", async (req, res) => {
   const articles = await Article.findAll({ include: User });
-  res.render("home", { articles });
+  res.render("adminMainPage", { articles });
 });
 
-adminRouter.delete("/delete/:id", async (req, res) => {
+adminRouter.get("/delete/:id", async (req, res) => {
   await Article.destroy({
     where: {
       id: req.params.id,
     },
   });
+  res.redirect("/admin");
 });
 
 adminRouter.get("/article/:id", async (req, res) => {
@@ -24,17 +25,18 @@ adminRouter.get("/article/:id", async (req, res) => {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEdit", { article });
+    res.render("adminEditArticle", { article });
   }
 });
 
-adminRouter.patch("/article/:id", express.json(), async (req, res) => {
+adminRouter.post("/article/:id", express.json(), async (req, res) => {
   await Article.update(
     { ...req.body },
     {
       where: { id: req.params.id },
     },
   );
+  res.redirect("/admin");
 });
 
 module.exports = adminRouter;

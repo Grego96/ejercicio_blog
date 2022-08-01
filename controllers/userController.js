@@ -1,35 +1,41 @@
-const { User } = require("../models");
-
-// Display a listing of the resource.
-async function addComment(req, res) {}
-
-// Display the specified resource.
-async function show(req, res) {}
+const { User, Comment } = require("../models");
 
 // Show the form for creating a new resource
-async function create(req, res) {}
+async function findOrCreateUserAndComment(req, res) {
+  if (
+    typeof req.body.firstname === "string" &&
+    typeof req.body.lastname === "string" &&
+    /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g.test(req.body.email)
+  ) {
+    const [user, created] = await User.findOrCreate({
+      where: {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+      },
+      defaults: {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+      },
+    });
 
-// Store a newly created resource in storage.
-async function store(req, res) {}
-
-// Show the form for editing the specified resource.
-async function edit(req, res) {}
-
-// Update the specified resource in storage.
-async function update(req, res) {}
-
-// Remove the specified resource from storage.
-async function destroy(req, res) {}
+    if (created) {
+      console.log("se creo un usuario nuevo");
+    } else {
+      console.log("usuario existente");
+    }
+    const comment = await Comment.create({
+      content: req.body.content,
+      articleId: req.params.id,
+      userId: user.id,
+    });
+  }
+}
 
 // Otros handlers...
 // ...
 
 module.exports = {
-  addComment,
-  show,
-  create,
-  store,
-  edit,
-  update,
-  destroy,
+  findOrCreateUserAndComment,
 };

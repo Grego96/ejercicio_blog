@@ -9,5 +9,5 @@ const userController = require("../controllers/userController");
 publicRouter.get("/", pageController.showHome);
 publicRouter.get("/article/:id", articleController.show);
 publicRouter.get("/api/article/:id", articleController.api);
-publicRouter.post("/article/:id", userController.addComment);
+publicRouter.post("/article/:id", express.json(), userController.findOrCreateUserAndComment);
 module.exports = publicRouter;
