@@ -10,6 +10,7 @@ module.exports = async () => {
     comments.push({
       content: faker.lorem.sentence(5),
       articleId: faker.datatype.number({ min: 1, max: 100 }),
+      userId: faker.datatype.number({ min: 1, max: 10 })
     });
   }
 
