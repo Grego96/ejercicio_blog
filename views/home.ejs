@@ -24,11 +24,19 @@
           <div class="card shadow my-5">
             <div class="row g-0">
               <div class="col-md-6 set-height">
+                <% if(articles[0].image.includes("http")) {%>
+                <img
+                  src="<%= articles[0].image %>"
+                  class="card-img-top img-fluid img-fixed-size img-main"
+                  alt=""
+                />
+                <% } else{%>
                 <img
                   src="/img/<%= articles[0].image %>"
-                  class="img-fluid rounded-start img-main"
-                  alt="..."
+                  class="card-img-top img-fluid img-fixed-size img-main"
+                  alt=""
                 />
+                <% } %>
               </div>
               <div class="col-md-6 d-flex flex-column justify-content-center">
                 <div class="card-body d-flex flex-column justify-content-around">
