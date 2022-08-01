@@ -1,11 +1,11 @@
-const { Article, User } = require("../models");
+const { Article, User, Comment } = require("../models");
 
 async function showHome(req, res) {
   const articles = await Article.findAll({
     order: [["createdAt", "DESC"]],
     include: User,
   });
-  res.render("home", { articles });
+  res.render("home", { articles});
 }
 
 async function showContact(req, res) {

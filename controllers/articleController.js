@@ -17,10 +17,13 @@ async function show(req, res) {
   const article = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, as: "comments" }],
   });
+  const comments = await Comment.findAll({include : User, where : {
+    articleId : article.id
+  }});
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("article", { article });
+    res.render("article", { article, comments });
   }
 }
 
