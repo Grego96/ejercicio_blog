@@ -1,4 +1,11 @@
 /* Colocar aquí CSS "propio" */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
 .img-fixed-size {
   object-fit: cover;
   height: 250px;
@@ -13,4 +20,12 @@
   object-fit: cover;
   height: inherit;
   width: 100%;
+}
+
+.article-img {
+  width: 100%;
+}
+
+.card-comment {
+  margin-left: 150px;
 }
