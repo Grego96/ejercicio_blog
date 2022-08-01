@@ -38,13 +38,14 @@ adminRouter.post("/article/:id", express.json(), async (req, res) => {
     keepExtensions: true,
   });
   let articleId = req.params.id;
-  form.parse(req, async (error, fields, files) => {});
-  await Article.update(
-    { ...fields, ...files },
-    {
-      where: { id: articleId },
-    },
-  );
+  form.parse(req, async (error, fields, files) => {
+    await Article.update(
+      { ...fields, image: files.image.newFilename },
+      {
+        where: { id: articleId },
+      },
+    );
+  });
   res.redirect("/admin");
 });
 

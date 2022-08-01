@@ -17,19 +17,24 @@
     <%- include("partials/adminNavbar") %>
     <div class="container">
       <div class="row">
-        <div class="card mb-3 px-0">
+        <div class="card my-3 px-0">
           <div class="card-header"><%=article.user.firstname%> <%=article.user.lastname%></div>
           <div class="row g-0">
             <form
               action="/admin/article/<%= article.id %> "
               method="post"
               enctype="multipart/form-data"
+              class="d-flex"
             >
               <div class="col-md-4">
-                <img src="<%= article.image %> " class="img-fluid rounded-start" alt="..." />
+                <% if(article.image.includes("http")) {%>
+                <img src="<%= article.image %> " class="img-fluid rounded-start" alt="" />
+                <% } else{%>
+                <img src="/img/<%= article.image %> " class="img-fluid rounded-start" alt="" />
+                <% } %>
                 <br />
                 <label for="image">Cambiar Imagen</label>
-                <input type="file" name="image" id="image" />
+                <input type="file" name="image" id="image" class="form-control" />
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -43,8 +48,8 @@
                   <br /><br />
                   <label for="content">Contenido</label>
                   <textarea name="content" id="" class="form-control" cols="20" rows="10">
-                    <%= article.content %>
-                  </textarea>
+<%= article.content %></textarea
+                  >
                   <br />
                   <button class="btn btn-success" type="submit">Guardar Cambios</button>
                 </div>
