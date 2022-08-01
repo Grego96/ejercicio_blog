@@ -76,10 +76,9 @@ async function addArticle(req, res) {
         image: files.image.newFilename,
         userId: user.id,
       });
+      res.redirect("/");
     }
   });
-
-  res.redirect("/");
 }
 
 // Otros handlers...

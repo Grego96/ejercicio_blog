@@ -38,7 +38,11 @@
               <td class="text-center"><%=article.title%></td>
               <td class="text-center"><%=article.content%></td>
               <td class="text-center">
-                <img src="../public/img/<%= article.image %>" alt="" width="100px" />
+                <% if(article.image.includes("http")) {%>
+                <img src="<%= article.image %> " alt="" width="100px" />
+                <% } else{%>
+                <img src="/img/<%= article.image %> " alt="" width="100px" />
+                <% } %>
               </td>
               <td class="text-center">
                 <%= article.user.firstname %> <%= article.user.lastname %>
