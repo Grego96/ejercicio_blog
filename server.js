@@ -9,31 +9,45 @@ const routes = require("./routes");
 const dbInitialSetup = require("./dbInitialSetup");
 const APP_PORT = process.env.APP_PORT || 3000;
 const app = express();
+const { User, Article, Comment } = require("./models");
 
 app.use(session({ secret: "AlgúnTextoSuperSecreto", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
-    const user = await User.findOne({ email: email }, function (err, user) {
-      if (err) {
-        return done(err);
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password"
+    },
+    async (email, password, done) => {
+      const user = await User.findOne({ where: { email: email } }, function (err, user) {
+        if (err) {
+          done(err);
+        }
+      });
+      if (!user) {
+        return done(null, false, { message: "Incorrect email or password." });
       }
-    });
-    if (!user) {
+      /*
+      bcrypt.compare(user.password, password, function (err, result) {
+        done(null, user);
+      });
+      */
+
+      if (user.password === password) {
+
+        return done(null, user);
+      }
+
       return done(null, false, { message: "Incorrect email or password." });
-    }
-    bcrypt.compare(user.password, password, function (err, result) {
-      return done(null, user);
-    });
-    return done(null, false, { message: "Incorrect email or password." });
-  }),
+    }),
 );
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
+passport.deserializeUser(async function (id, done) {
   const user = await User.findByPk(id)
     .then((user) => {
       done(null, user);
@@ -49,7 +63,7 @@ app.set("view engine", "ejs");
 
 routes(app);
 
-dbInitialSetup(); // Crea tablas e inserta datos de prueba.
+//dbInitialSetup(); // Crea tablas e inserta datos de prueba.
 
 app.listen(APP_PORT, () => {
   console.log(`\n[Express] Servidor corriendo en el puerto ${APP_PORT}.`);

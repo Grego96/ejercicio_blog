@@ -3,6 +3,11 @@ const publicRouter = express.Router();
 const pageController = require("../controllers/pagesController");
 const articleController = require("../controllers/articleController");
 const userController = require("../controllers/userController");
+const authController = require("../controllers/authController");
+const passport = require("passport");
+const { User, Article, Comment } = require("../models");
+
+
 
 // showHome
 
@@ -12,4 +17,18 @@ publicRouter.get("/api/article/:id", articleController.api);
 publicRouter.post("/article/:id", express.json(), userController.findOrCreateUserAndComment);
 publicRouter.get("/create", express.json(), userController.createArticle);
 publicRouter.post("/create", express.json(), userController.addArticle);
+
+publicRouter.post("/login",
+    passport.authenticate("local", {
+        successRedirect: "/admin",
+        failureRedirect: "/login"
+    })
+);
+//publicRouter.post("/register", authController.adminUser);
+publicRouter.get("/login", authController.showLogin);
+
+publicRouter.post("/register", authController.registerUser);
+
+publicRouter.get("/register", authController.showRegister);
+
 module.exports = publicRouter;
