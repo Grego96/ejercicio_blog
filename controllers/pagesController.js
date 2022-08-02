@@ -1,11 +1,12 @@
 const { Article, User, Comment } = require("../models");
+const { format } = require("date-fns");
 
 async function showHome(req, res) {
   const articles = await Article.findAll({
     order: [["createdAt", "DESC"]],
     include: User,
   });
-  res.render("home", { articles});
+  res.render("home", { articles, format });
 }
 
 async function showContact(req, res) {

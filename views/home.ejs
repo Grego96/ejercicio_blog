@@ -53,9 +53,7 @@
                     <small> <%=articles[0].user.firstname%> <%=articles[0].user.lastname%> </small>
                     -
                     <small class="text-muted">
-                      <%let fecha = articles[0].createdAt%> <%= fecha.getDate() + "-" +
-                      fecha.getMonth() + "-" + fecha.getFullYear() + ", " + fecha.getHours() + ":" +
-                      fecha.getMinutes(); %>
+                      <%= format(articles[0].createdAt, `MMMM dd',' yyyy`) %>
                     </small>
                   </p>
                 </div>
@@ -84,9 +82,7 @@
               <p class="card-text">
                 <%=articles[i].user.firstname%> <%=articles[i].user.lastname%> -
                 <small class="text-muted">
-                  <%let fecha = articles[i].createdAt%> <%= fecha.getDate() + "-" + fecha.getMonth()
-                  + "-" + fecha.getFullYear() + ", " + fecha.getHours() + ":" + fecha.getMinutes();
-                  %>
+                  <%= format(articles[i].createdAt, `MMMM dd',' yyyy`) %>
                 </small>
               </p>
               <a href="/article/<%= articles[i].id %>" class="btn btn-primary">Leer más</a>

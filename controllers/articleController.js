@@ -1,5 +1,5 @@
 const { Article, User, Comment } = require("../models");
-
+const { format } = require("date-fns");
 // Display a listing of the resource.
 async function api(req, res) {
   const apiArticle = await Article.findByPk(req.params.id, {
@@ -15,15 +15,12 @@ async function api(req, res) {
 // Display the specified resource.
 async function show(req, res) {
   const article = await Article.findByPk(req.params.id, {
-    include: [User, { model: Comment, as: "comments" }],
+    include: [User, { model: Comment, include: User }],
   });
-  const comments = await Comment.findAll({include : User, where : {
-    articleId : article.id
-  }});
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("article", { article, comments });
+    res.render("article", { article, format });
   }
 }
 
