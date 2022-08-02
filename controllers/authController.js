@@ -35,22 +35,6 @@ function showRegister(req, res) {
     res.render("register");
 }
 
-async function registerUser(req, res) {
-    const firstname = req.body.firstname;
-    const lastname = req.body.lastname;
-    const email = req.body.email;
-
-    await bcrypt.hash(req.body.password, 11, async (error, hash) => {
-        const pass = hash;
-        console.log(pass);
-
-        const user = await User.create({ firstname, lastname, email, pass });
-        res.redirect("/admin")
-    });
-
-
-
-}
 
 
 /*async function adminUser() {
@@ -70,6 +54,5 @@ module.exports = {
     destroy,
     loginUser,
     showLogin,
-    registerUser,
     showRegister
 };

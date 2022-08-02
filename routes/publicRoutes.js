@@ -27,7 +27,22 @@ publicRouter.post("/login",
 //publicRouter.post("/register", authController.adminUser);
 publicRouter.get("/login", authController.showLogin);
 
-publicRouter.post("/register", authController.registerUser);
+publicRouter.post("/register", async (req, res) => {
+    const user = await User.findOne({
+        where: { email: req.body.email },
+    });
+    if(user){
+        res.redirect('/login');
+    } else {
+        const newUser = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: req.body.password,
+        });
+        res.redirect('/login');
+    }
+});
 
 publicRouter.get("/register", authController.showRegister);
 

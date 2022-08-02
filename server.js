@@ -20,26 +20,26 @@ passport.use(
       passwordField: "password"
     },
     async (email, password, done) => {
-      const user = await User.findOne({ where: { email: email } }, function (err, user) {
-        if (err) {
-          done(err);
+      const user = await User.findOne({ where: { email: email } }, { raw: true });
+
+      if (user) {
+        const compare = await bcrypt.compare(password, user.password);
+        
+        if(compare){
+          return done(null, user);
+        } else {
+          return done(null, false, { message: "Incorrect email or password." });
         }
-      });
-      if (!user) {
+      } else {
         return done(null, false, { message: "Incorrect email or password." });
       }
-      /*
-      bcrypt.compare(user.password, password, function (err, result) {
-        done(null, user);
-      });
-      */
 
-      if (user.password === password) {
+      /*if (user.password === password) {
 
         return done(null, user);
       }
 
-      return done(null, false, { message: "Incorrect email or password." });
+      return done(null, false, { message: "Incorrect email or password." });*/
     }),
 );
 
@@ -63,7 +63,7 @@ app.set("view engine", "ejs");
 
 routes(app);
 
-//dbInitialSetup(); // Crea tablas e inserta datos de prueba.
+dbInitialSetup(); // Crea tablas e inserta datos de prueba.
 
 app.listen(APP_PORT, () => {
   console.log(`\n[Express] Servidor corriendo en el puerto ${APP_PORT}.`);
