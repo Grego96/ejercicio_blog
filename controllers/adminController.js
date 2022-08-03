@@ -4,17 +4,17 @@ const { User, Article, Comment } = require("../models");
 async function homeAdmin(req, res) {
   console.log("index");
   const articles = await Article.findAll({ order: [['createdAt', 'DESC']], include: User });
-  res.render("home", { articles });
+  res.render("home", { articles, isAuthenticated: req.isAuthenticated() });
 }
 
 // Display the specified resource.
-async function show(req, res) {}
+async function show(req, res) { }
 
 // Show the form for creating a new resource
-async function create(req, res) {}
+async function create(req, res) { }
 
 // Store a newly created resource in storage.
-async function store(req, res) {}
+async function store(req, res) { }
 
 // Show the form for editing the specified resource.
 async function edit(req, res) {
@@ -22,7 +22,7 @@ async function edit(req, res) {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEdit", { article });
+    res.render("adminEdit", { article, isAuthenticated: req.isAuthenticated() });
   }
 }
 

@@ -20,7 +20,7 @@ async function show(req, res) {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("article", { article, format });
+    res.render("article", { article, format,  isAuthenticated: req.isAuthenticated() });
   }
 }
 

@@ -4,6 +4,18 @@ const path = require("path");
 
 // Show the form for creating a new resource
 async function findOrCreateUserAndComment(req, res) {
+  if (req.isAuthenticated()) {
+    await Comment.create({
+      content: req.body.content,
+      articleId: req.params.id,
+      userId: req.user.id,
+    });
+    res.redirect("/article/" + req.params.id);
+
+  } else {
+    res.redirect("/login");
+  }
+  /*
   if (
     typeof req.body.firstname === "string" &&
     typeof req.body.lastname === "string" &&
@@ -34,51 +46,62 @@ async function findOrCreateUserAndComment(req, res) {
     });
   }
   res.redirect("/article/" + req.params.id);
+  */
 }
 
 async function createArticle(req, res) {
-  res.render("createArticle");
+  if (req.isAuthenticated()) {
+
+    res.render("createArticle", { isAuthenticated: req.isAuthenticated() });
+  } else {
+    res.redirect("/login");
+  }
 }
 
 async function addArticle(req, res) {
-  const form = formidable({
-    multiples: true,
-    uploadDir: path.join(__dirname, "../public/img"),
-    keepExtensions: true,
-  });
+  if (req.isAuthenticated()) {
+    const form = formidable({
+      multiples: true,
+      uploadDir: path.join(__dirname, "../public/img"),
+      keepExtensions: true,
+    });
 
-  form.parse(req, async (error, fields, files) => {
-    if (
-      typeof fields.firstname === "string" &&
-      typeof fields.lastname === "string" &&
-      /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g.test(fields.email)
-    ) {
-      const [user, created] = await User.findOrCreate({
-        where: {
-          firstname: fields.firstname,
-          lastname: fields.lastname,
-          email: fields.email,
-        },
-        defaults: {
-          firstname: fields.firstname,
-          lastname: fields.lastname,
-          email: fields.email,
-        },
-      });
-      if (created) {
-        console.log("se creo un usuario nuevo");
-      } else {
-        console.log("usuario existente");
+    form.parse(req, async (error, fields, files) => {
+      if (
+        typeof fields.firstname === "string" &&
+        typeof fields.lastname === "string" &&
+        /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g.test(fields.email)
+      ) {
+        const [user, created] = await User.findOrCreate({
+          where: {
+            firstname: fields.firstname,
+            lastname: fields.lastname,
+            email: fields.email,
+          },
+          defaults: {
+            firstname: fields.firstname,
+            lastname: fields.lastname,
+            email: fields.email,
+          },
+        });
+        if (created) {
+          console.log("se creo un usuario nuevo");
+        } else {
+          console.log("usuario existente");
+        }
+        await Article.create({
+          title: fields.title,
+          content: fields.content,
+          image: files.image.newFilename,
+          userId: user.id,
+        });
+        res.redirect("/");
       }
-      await Article.create({
-        title: fields.title,
-        content: fields.content,
-        image: files.image.newFilename,
-        userId: user.id,
-      });
-      res.redirect("/");
-    }
-  });
+    });
+  } else {
+    res.redirect("/login")
+  }
+
 }
 
 // Otros handlers...

@@ -35,6 +35,16 @@ function showRegister(req, res) {
     res.render("register");
 }
 
+function logOutUser(req, res) {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+
+    });
+}
+
 
 
 /*async function adminUser() {
@@ -54,5 +64,6 @@ module.exports = {
     destroy,
     loginUser,
     showLogin,
-    showRegister
+    showRegister,
+    logOutUser
 };
