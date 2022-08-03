@@ -12,15 +12,25 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       firstname: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       lastname: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [8, 50],
+        },
       },
     },
     {
@@ -38,6 +48,5 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
     },
   );
-
   return User;
 };
