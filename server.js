@@ -22,17 +22,15 @@ passport.use(
     async (email, password, done) => {
       const user = await User.findOne({ where: { email: email } }, { raw: true });
 
-      if (user) {
-        const compare = await bcrypt.compare(password, user.password);
-
-        if (compare) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: "Incorrect email or password." });
-        }
-      } else {
+      if (!user) {
         return done(null, false, { message: "Incorrect email or password." });
       }
+      const compare = await bcrypt.compare(password, user.password);
+
+      if (!compare) {
+        return done(null, false, { message: "Incorrect email or password." });
+      }
+      return done(null, user);
     },
   ),
 );
