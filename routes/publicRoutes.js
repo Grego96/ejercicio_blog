@@ -6,8 +6,7 @@ const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const passport = require("passport");
 const { User, Article, Comment } = require("../models");
-
-
+const bcrypt = require("bcrypt");
 
 // showHome
 publicRouter.get("/", pageController.showHome);
@@ -17,32 +16,32 @@ publicRouter.post("/article/:id", express.json(), userController.findOrCreateUse
 publicRouter.get("/create", express.json(), userController.createArticle);
 publicRouter.post("/create", express.json(), userController.addArticle);
 
-
-publicRouter.post("/login",
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login"
-    })
+publicRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  }),
 );
 //publicRouter.post("/register", authController.adminUser);
 publicRouter.get("/login", authController.showLogin);
 
 //Registrar user nuevo, si ya existe dirige directo a el login
 publicRouter.post("/register", async (req, res) => {
-    const user = await User.findOne({
-        where: { email: req.body.email },
+  const user = await User.findOne({
+    where: { email: req.body.email },
+  });
+  if (user) {
+    res.redirect("/login");
+  } else {
+    const newUser = await User.create({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password, // await bcrypt.hash(req.body.password, 10),
     });
-    if(user){
-        res.redirect('/login');
-    } else {
-        const newUser = await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-        });
-        res.redirect('/login');
-    }
+    res.redirect("/login");
+  }
 });
 
 publicRouter.get("/register", authController.showRegister);
