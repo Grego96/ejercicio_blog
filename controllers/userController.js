@@ -11,7 +11,6 @@ async function findOrCreateUserAndComment(req, res) {
       userId: req.user.id,
     });
     res.redirect("/article/" + req.params.id);
-
   } else {
     res.redirect("/login");
   }
@@ -51,7 +50,6 @@ async function findOrCreateUserAndComment(req, res) {
 
 async function createArticle(req, res) {
   if (req.isAuthenticated()) {
-
     res.render("createArticle", { isAuthenticated: req.isAuthenticated() });
   } else {
     res.redirect("/login");
@@ -67,6 +65,7 @@ async function addArticle(req, res) {
     });
 
     form.parse(req, async (error, fields, files) => {
+      /*
       if (
         typeof fields.firstname === "string" &&
         typeof fields.lastname === "string" &&
@@ -89,19 +88,18 @@ async function addArticle(req, res) {
         } else {
           console.log("usuario existente");
         }
-        await Article.create({
-          title: fields.title,
-          content: fields.content,
-          image: files.image.newFilename,
-          userId: user.id,
-        });
-        res.redirect("/");
-      }
+        */
+      await Article.create({
+        title: fields.title,
+        content: fields.content,
+        image: files.image.newFilename,
+        userId: req.user.id,
+      });
+      res.redirect("/");
     });
   } else {
-    res.redirect("/login")
+    res.redirect("/login");
   }
-
 }
 
 // Otros handlers...

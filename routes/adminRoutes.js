@@ -9,19 +9,27 @@ const { User, Article, Comment } = require("../models");
 adminRouter.get("/", async (req, res) => {
   if (req.isAuthenticated()) {
     const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
-    res.render("adminMainPage", { articles, isAuthenticated: req.isAuthenticated()});
+    res.render("adminMainPage", {
+      articles,
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user,
+    });
   } else {
     res.redirect("/login");
   }
-
 });
 
 adminRouter.get("/delete/:id", async (req, res) => {
-  await Article.destroy({
-    where: {
-      id: req.params.id,
-    },
+  const article = await Article.findByPk(req.params.id, {
+    include: [User, { model: Comment, as: "comments" }],
   });
+  if (req.user.id === article.user.id) {
+    await Article.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+  }
   res.redirect("/admin");
 });
 
@@ -32,7 +40,9 @@ adminRouter.get("/article/:id", async (req, res) => {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEditArticle", { article, isAuthenticated: req.isAuthenticated() });
+    if (req.isAuthenticated() && req.user.id === article.user.id) {
+      res.render("adminEditArticle", { article, isAuthenticated: req.isAuthenticated() });
+    }
   }
 });
 

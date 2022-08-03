@@ -17,15 +17,15 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "email",
-      passwordField: "password"
+      passwordField: "password",
     },
     async (email, password, done) => {
       const user = await User.findOne({ where: { email: email } }, { raw: true });
 
       if (user) {
         const compare = await bcrypt.compare(password, user.password);
-        
-        if(compare){
+
+        if (compare) {
           return done(null, user);
         } else {
           return done(null, false, { message: "Incorrect email or password." });
@@ -40,7 +40,8 @@ passport.use(
       }
 
       return done(null, false, { message: "Incorrect email or password." });*/
-    }),
+    },
+  ),
 );
 
 passport.serializeUser(function (user, done) {
