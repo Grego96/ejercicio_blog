@@ -7,23 +7,23 @@ const { User, Article, Comment } = require("../models");
 // Rutas del Admin:
 // ...
 adminRouter.get("/", async (req, res) => {
-  if (req.isAuthenticated()) {
-    const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
-    res.render("adminMainPage", {
-      articles,
-      isAuthenticated: req.isAuthenticated(),
-      user: req.user,
-    });
-  } else {
+  if (!req.isAuthenticated()) {
     res.redirect("/login");
   }
+  const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
+  res.render("adminMainPage", {
+    articles,
+    isAuthenticated: req.isAuthenticated(),
+    user: req.user,
+  });
 });
 
 adminRouter.get("/delete/:id", async (req, res) => {
-  const article = await Article.findByPk(req.params.id, {
-    include: [User, { model: Comment, as: "comments" }],
-  });
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
+  }
   if (req.user.id === article.user.id) {
+    const article = await Article.findByPk(req.params.id);
     await Article.destroy({
       where: {
         id: req.params.id,
