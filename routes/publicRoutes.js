@@ -7,6 +7,7 @@ const authController = require("../controllers/authController");
 const passport = require("passport");
 const { User, Article, Comment } = require("../models");
 const bcrypt = require("bcrypt");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 // showHome
 publicRouter.get("/", pageController.showHome);
@@ -16,13 +17,14 @@ publicRouter.post("/article/:id", express.json(), userController.findOrCreateUse
 publicRouter.get("/create", express.json(), userController.createArticle);
 publicRouter.post("/create", express.json(), userController.addArticle);
 
-publicRouter.post(
-  "/login",
+function login(req, res) {
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: req.session.redirectTo ? req.session.redirectTo : "/",
     failureRedirect: "/login",
-  }),
-);
+  })(req, res);
+}
+
+publicRouter.post("/login", login);
 //publicRouter.post("/register", authController.adminUser);
 publicRouter.get("/login", authController.showLogin);
 
