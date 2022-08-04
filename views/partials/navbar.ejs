@@ -16,14 +16,14 @@
 
   <body>
     <div class="row py-2 d-flex justify-content-center bg-secondary navbar navbar-dark bg-dark">
-      <div class="col-5 d-flex align-items-center justify-content-start">
+      <div class="col-4 d-flex align-items-center justify-content-start">
         <a href="/" class="blogHome fs-1 badge text-decoration-none fw-normal">BLOG</a>
       </div>
       <% if (user) { %>
-        <div class="col-2 d-flex align-items-center justify-content-center">
+        <div class="col-4 d-flex align-items-center justify-content-center">
           <p class="textWelcome d-flex align-items-center fw-light"><%= user.firstname + " " + user.lastname%> </p>
         </div>
-      <div class="col-5 d-flex align-items-center justify-content-end">
+      <div class="col-4 d-flex align-items-center justify-content-end">
         <a type="button" class="btn btns btn-outline-secondary m-2" href="/admin">Cambiar a Admin</a>
         <a type="button" class="btn btns btn-outline-secondary m-2" href="/logout">Log out</a>
       </div>
