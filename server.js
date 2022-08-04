@@ -17,30 +17,22 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "email",
-      passwordField: "password"
+      passwordField: "password",
     },
     async (email, password, done) => {
       const user = await User.findOne({ where: { email: email } }, { raw: true });
 
-      if (user) {
-        const compare = await bcrypt.compare(password, user.password);
-        
-        if(compare){
-          return done(null, user);
-        } else {
-          return done(null, false, { message: "Incorrect email or password." });
-        }
-      } else {
+      if (!user) {
         return done(null, false, { message: "Incorrect email or password." });
       }
+      const compare = await bcrypt.compare(password, user.password);
 
-      /*if (user.password === password) {
-
-        return done(null, user);
+      if (!compare) {
+        return done(null, false, { message: "Incorrect email or password." });
       }
-
-      return done(null, false, { message: "Incorrect email or password." });*/
-    }),
+      return done(null, user);
+    },
+  ),
 );
 
 passport.serializeUser(function (user, done) {
@@ -59,11 +51,16 @@ passport.deserializeUser(async function (id, done) {
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  res.locals.url = req.url;
+  next();
+});
 app.set("view engine", "ejs");
 
 routes(app);
 
-dbInitialSetup(); // Crea tablas e inserta datos de prueba.
+//dbInitialSetup(); // Crea tablas e inserta datos de prueba.
 
 app.listen(APP_PORT, () => {
   console.log(`\n[Express] Servidor corriendo en el puerto ${APP_PORT}.`);

@@ -5,7 +5,7 @@ async function api(req, res) {
   const apiArticle = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, as: "comments" }],
   });
-  if (apiArticle === null) {
+  if (!apiArticle) {
     res.status(404).send("Not Found");
   } else {
     res.json(apiArticle);
@@ -17,10 +17,10 @@ async function show(req, res) {
   const article = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, include: User }],
   });
-  if (article === null) {
+  if (!article) {
     res.status(404).send("Not Found");
   } else {
-    res.render("article", { article, format });
+    res.render("article", { article, format, isAuthenticated: req.isAuthenticated() });
   }
 }
 

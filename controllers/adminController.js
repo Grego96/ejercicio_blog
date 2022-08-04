@@ -2,9 +2,8 @@ const { User, Article, Comment } = require("../models");
 
 // Display a listing of the resource.
 async function homeAdmin(req, res) {
-  console.log("index");
-  const articles = await Article.findAll({ order: [['createdAt', 'DESC']], include: User });
-  res.render("home", { articles });
+  const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
+  res.render("home", { articles, isAuthenticated: req.isAuthenticated() });
 }
 
 // Display the specified resource.
@@ -19,10 +18,10 @@ async function store(req, res) {}
 // Show the form for editing the specified resource.
 async function edit(req, res) {
   const article = await Article.findByPk(req.params.id);
-  if (article === null) {
+  if (!article) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEdit", { article });
+    res.render("adminEdit", { article, isAuthenticated: req.isAuthenticated() });
   }
 }
 
