@@ -29,3 +29,11 @@
 .card-comment {
   margin-left: 150px;
 }
+
+.blogHome{
+  color:lightgray !important;
+}
+
+.blogHome:hover{
+  color:white !important;
+}
