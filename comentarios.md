@@ -5,7 +5,7 @@
 ```js
 async function homeAdmin(req, res)
 ```
-cambiar el nombre de la funcion por index que es mas intuitivo
+Cambiar el nombre de la funcion por index que es mas intuitivo
 
 ## 2
 
@@ -18,7 +18,7 @@ async function update(req, res)
 async function destroy(req, res)
 ```
 
-### eliminar las funciones que no se usan
+Eliminar las funciones que no se usan
 
 ## 3
 
@@ -36,11 +36,11 @@ return res.json(apiArticle);
   
 ```
 
-### Evitar uso de else
+Evitar uso de else
 
 ## 4 
 
-### Ordenar rutas según responsabilidades
+Ordenar rutas según responsabilidades
 
 
 
