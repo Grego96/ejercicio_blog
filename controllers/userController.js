@@ -4,16 +4,15 @@ const path = require("path");
 
 // Show the form for creating a new resource
 async function findOrCreateUserAndComment(req, res) {
-  if (req.isAuthenticated()) {
-    await Comment.create({
-      content: req.body.content,
-      articleId: req.params.id,
-      userId: req.user.id,
-    });
-    res.redirect("/article/" + req.params.id);
-  } else {
-    res.redirect("/login");
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login"); 
   }
+  await Comment.create({
+    content: req.body.content,
+    articleId: req.params.id,
+    userId: req.user.id,  
+  });
+  res.redirect("/article/" + req.params.id);
   /*
   if (
     typeof req.body.firstname === "string" &&
@@ -50,7 +49,7 @@ async function findOrCreateUserAndComment(req, res) {
 
 async function createArticle(req, res) {
   if (req.isAuthenticated()) {
-    res.render("createArticle", { isAuthenticated: req.isAuthenticated() });
+    res.render("createArticle");
   } else {
     res.redirect("/login");
   }

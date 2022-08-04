@@ -38,12 +38,12 @@ module.exports = (sequelize, Model, DataTypes) => {
       sequelize,
       modelName: "user",
       hooks: {
-        beforeBulkCreate: async (users, options) => {
+        beforeBulkCreate: async (users) => {
           for (const user of users) {
             user.password = await bcrypt.hash(user.password, 10);
           }
         },
-        beforeCreate: async (user, options) => {
+        beforeCreate: async (user) => {
           user.password = await bcrypt.hash(user.password, 10);
         },
       },

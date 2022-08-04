@@ -1,9 +1,15 @@
 function showLogin(req, res) {
-    res.render("login");
+    if (!req.isAuthenticated()) {
+        res.render("/login");
+    }
+    res.redirect("/");
 }
 
 function showRegister(req, res) {
-    res.render("register");
+    if (!req.isAuthenticated()) {
+        res.render("/register");
+    }
+    res.redirect("/");
 }
 
 function logOutUser(req, res) {
