@@ -8,7 +8,7 @@ const { User, Article, Comment } = require("../models");
 // ...
 adminRouter.get("/", async (req, res) => {
   if (!req.isAuthenticated()) {
-    res.redirect("/login");
+    return res.redirect("/login");
   }
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
   res.render("adminMainPage", {
@@ -18,10 +18,10 @@ adminRouter.get("/", async (req, res) => {
 
 adminRouter.get("/delete/:id", async (req, res) => {
   if (!req.isAuthenticated()) {
-    res.redirect("/login");
+    return res.redirect("/login");
   }
+  const article = await Article.findOne({ where: { id: req.params.id }, include: User });
   if (req.user.id === article.user.id) {
-    const article = await Article.findByPk(req.params.id);
     await Article.destroy({
       where: {
         id: req.params.id,

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Model, DataTypes) => {
-  class Article extends Model {}
+  class Article extends Model { }
 
   Article.init(
     {
@@ -11,14 +11,23 @@ module.exports = (sequelize, Model, DataTypes) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+           notEmpty: true,
+        }
       },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
+        validate: {
+           notEmpty: true,
+        }
       },
       image: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+           notEmpty: true,
+        }
       },
     },
     {

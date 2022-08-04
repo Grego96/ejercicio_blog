@@ -10,7 +10,10 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
       content: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull:false,
+        validate:{
+          notEmpty:true,
+        }
       },
     },
     {

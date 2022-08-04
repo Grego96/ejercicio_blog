@@ -32,7 +32,7 @@
               <div class="col-md-12">
                 <div class="card-body">
                   <label for="image">Imagen</label>
-                  <input class="form-control" type="file" name="image" />
+                  <input class="form-control" type="file" name="image" required />
                 </div>
                 <div class="card-body">
                   <label for="title">Titulo</label>
@@ -42,6 +42,7 @@
                     class="form-control"
                     name="title"
                     value=""
+                    required
                   />
                   <br /><br />
                   <label for="content">Contenido</label>
@@ -51,6 +52,7 @@
                     class="form-control"
                     cols="20"
                     rows="10"
+                    required
                   ></textarea>
                   <br />
                   <button class="btn btn-success" type="submit">Guardar Cambios</button>
