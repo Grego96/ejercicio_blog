@@ -1,13 +1,13 @@
 function showLogin(req, res) {
     if (!req.isAuthenticated()) {
-        res.render("/login");
+        return res.render("/login");
     }
     res.redirect("/");
 }
 
 function showRegister(req, res) {
     if (!req.isAuthenticated()) {
-        res.render("/register");
+        return res.render("/register");
     }
     res.redirect("/");
 }
