@@ -6,8 +6,6 @@ const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const passport = require("passport");
 const { User, Article, Comment } = require("../models");
-const bcrypt = require("bcrypt");
-const isAuthenticated = require("../middlewares/isAuthenticated");
 
 // showHome
 publicRouter.get("/", pageController.showHome);
@@ -33,16 +31,18 @@ publicRouter.post("/register", async (req, res) => {
   const user = await User.findOne({
     where: { email: req.body.email },
   });
-  if (user) {
-    res.redirect("/login");
-  } else {
+  if (!user) {
     const newUser = await User.create({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      password: req.body.password, // await bcrypt.hash(req.body.password, 10),
+      password: req.body.password,
     });
     res.redirect("/login");
+    
+  }
+  if (user) {
+    res.render("register", {user});
   }
 });
 

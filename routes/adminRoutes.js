@@ -13,8 +13,6 @@ adminRouter.get("/", async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
   res.render("adminMainPage", {
     articles,
-    isAuthenticated: req.isAuthenticated(),
-    user: req.user,
   });
 });
 
@@ -41,7 +39,7 @@ adminRouter.get("/article/:id", async (req, res) => {
     res.status(404).send("Not Found");
   } else {
     if (req.isAuthenticated() && req.user.id === article.user.id) {
-      res.render("adminEditArticle", { article, isAuthenticated: req.isAuthenticated() });
+      res.render("adminEditArticle", { article });
     }
   }
 });

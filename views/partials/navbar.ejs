@@ -19,7 +19,7 @@
       <div class="col-5 d-flex align-items-center justify-content-start">
         <a href="/" class="blogHome fs-1 badge text-decoration-none fw-normal">BLOG</a>
       </div>
-      <% if (isAuthenticated) { %>
+      <% if (user) { %>
         <div class="col-2 d-flex align-items-center justify-content-center">
           <p class="textWelcome d-flex align-items-center fw-light"><%= user.firstname + " " + user.lastname%> </p>
         </div>
