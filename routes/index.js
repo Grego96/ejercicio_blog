@@ -4,5 +4,5 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 
 module.exports = (app) => {
   app.use(publicRoutes);
-  app.use("/admin", isAuthenticated, adminRoutes);
+  app.use("/admin", adminRoutes);
 };
