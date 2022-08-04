@@ -5,8 +5,7 @@
 ```js
 async function homeAdmin(req, res)
 ```
-
-### cambiar el nombre de la funcion por index que es mas intuitivo
+cambiar el nombre de la funcion por index que es mas intuitivo
 
 ## 2
 
