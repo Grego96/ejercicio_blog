@@ -50,7 +50,11 @@
                                 <label class="form-check-label text-muted">Al seleccionar esta casilla aceptas nuestro aviso de privacidad y los términos y condiciones</label>
                             </div>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary width-100">Regístrate</button>
+                        <% if (user) { %> 
+                            <label class="form-check-label text-danger ml-5">El usuario con el mail <%= user.email %> ya existe. </label>
+                        <% } %> 
                     </form>
                 </div>
            </div>
