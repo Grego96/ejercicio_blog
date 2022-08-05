@@ -7,16 +7,27 @@ const { User, Article, Comment } = require("../models");
 // Rutas del Admin:
 // ...
 adminRouter.get("/", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
-  res.render("adminMainPage", { articles });
+  res.render("adminMainPage", {
+    articles,
+  });
 });
 
 adminRouter.get("/delete/:id", async (req, res) => {
-  await Article.destroy({
-    where: {
-      id: req.params.id,
-    },
-  });
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
+  const article = await Article.findOne({ where: { id: req.params.id }, include: User });
+  if (req.user.id === article.user.id) {
+    await Article.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+  }
   res.redirect("/admin");
 });
 
@@ -27,7 +38,9 @@ adminRouter.get("/article/:id", async (req, res) => {
   if (article === null) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEditArticle", { article });
+    if (req.isAuthenticated() && req.user.id === article.user.id) {
+      res.render("adminEditArticle", { article });
+    }
   }
 });
 

@@ -13,6 +13,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
+
   <body>
     <%- include("partials/navbar") %>
     <div class="container">
@@ -31,15 +32,15 @@
                 <h5 class="card-title"><%=article.title%></h5>
                 <p class="card-text"><%=article.content%></p>
                 <small class="blockquote-footer">
-                  <cite title="Source Title"
-                    ><%= format(article.createdAt, `MMMM dd',' yyyy`) %>
+                  <cite title="Source Title">
+                    <%= format(article.createdAt, `MMMM dd',' yyyy`) %>
                   </cite>
                 </small>
               </div>
             </div>
           </div>
         </div>
-        <% for(let i = 0; i < article.comments.length; i++) {%>
+        <% for(let i=0; i < article.comments.length; i++) {%>
         <div class="comments p-0 m-0 py-3">
           <div class="card-comment card">
             <div class="card-header">
@@ -49,8 +50,8 @@
               <blockquote class="blockquote mb-0">
                 <p><%= article.comments[i].content %></p>
                 <small class="blockquote-footer">
-                  <cite title="Source Title"
-                    ><%= format(article.comments[i].createdAt, `MMMM dd',' yyyy`) %>
+                  <cite title="Source Title">
+                    <%= format(article.comments[i].createdAt, `MMMM dd',' yyyy`) %>
                   </cite>
                 </small>
               </blockquote>
@@ -61,6 +62,7 @@
 
         <form action="/article/<%= article.id %>  " method="post">
           <div class="card-header">
+            <!-- 
             <label for="firstname">Nombre</label>
             <input class="form-control" type="text" name="firstname" />
             <br />
@@ -70,9 +72,10 @@
             <label for="email">Email</label>
             <input class="form-control" type="text" name="email" />
             <br />
+            -->
             <label for="content">Añade un comentario</label>
             <br />
-            <textarea name="content" id="" cols="30" rows="10"></textarea>
+            <textarea class="form-control" name="content" id="" cols="30" rows="10"></textarea>
             <br />
             <button class="btn btn-success" type="submit">Comentar</button>
           </div>

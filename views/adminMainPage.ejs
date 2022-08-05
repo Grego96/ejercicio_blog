@@ -23,8 +23,10 @@
           <div class="card-body">
             <h5 class="card-title"><%= article.title %></h5>
             <p class="card-text"><%= article.content %></p>
-            <a href="/admin/article/<%= article.id %> " class="btn btn-primary">Editar</a>
-            <a href="/admin/delete/<%= article.id %>" class="btn btn-danger">Eliminar</a>
+            <% if (user.id === article.user.id) { %>
+              <a href="/admin/article/<%= article.id %> " class="btn btn-primary">Editar</a>
+              <a href="/admin/delete/<%= article.id %>" class="btn btn-danger">Eliminar</a>
+            <% } %>
           </div>
         </div>
         <% } %>

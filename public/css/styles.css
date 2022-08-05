@@ -29,3 +29,18 @@
 .card-comment {
   margin-left: 150px;
 }
+
+.blogHome, .btns{
+  color:lightgray !important;
+}
+
+.blogHome:hover{
+  color:white !important;
+}
+
+.textWelcome{
+  color:lightgray !important;
+  font-size: 2rem;
+  text-align: center !important;
+  margin-bottom: 0% !important;
+}
