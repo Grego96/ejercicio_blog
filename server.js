@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -11,7 +11,7 @@ const APP_PORT = process.env.APP_PORT || 3000;
 const app = express();
 const { User, Article, Comment } = require("./models");
 
-app.use(session({ secret: "AlgúnTextoSuperSecreto", resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.APP_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.session());
 passport.use(
   new LocalStrategy(

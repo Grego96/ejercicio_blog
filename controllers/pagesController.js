@@ -6,7 +6,7 @@ async function showHome(req, res) {
     order: [["createdAt", "DESC"]],
     include: User,
   });
-
+  // console.log(articles);
   res.render("home", { articles, format, isAuthenticated: req.isAuthenticated() });
 }
 

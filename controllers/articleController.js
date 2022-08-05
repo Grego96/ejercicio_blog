@@ -16,6 +16,8 @@ async function api(req, res) {
 async function show(req, res) {
   const article = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, include: User }],
+    // especificar el modelo que queres ordenar en el primer indice (en este caso el modelo Comment que incluimos en la linea anterior)
+    order: [[Comment, "createdAt", "DESC"]],
   });
   if (!article) {
     res.status(404).send("Not Found");

@@ -5,14 +5,15 @@ const path = require("path");
 // Show the form for creating a new resource
 async function findOrCreateUserAndComment(req, res) {
   if (!req.isAuthenticated()) {
-    return res.redirect("/login"); 
+    return res.redirect("/login");
   }
   await Comment.create({
     content: req.body.content,
     articleId: req.params.id,
-    userId: req.user.id,  
+    userId: req.user.id,
   });
-  res.redirect("/article/" + req.params.id);
+  // "#newComment" anclaje al ID del formulario donde se crean comentarios en el articulo
+  res.redirect("/article/" + req.params.id + "#newComment");
   /*
   if (
     typeof req.body.firstname === "string" &&
