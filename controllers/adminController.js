@@ -1,65 +1,55 @@
+const formidable = require("formidable");
+const path = require("path");
 const { User, Article, Comment } = require("../models");
+const { format } = require("date-fns");
 
-// Display a listing of the resource.
-async function homeAdmin(req, res) {
+async function showEditPage(req, res) {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]], include: User });
-  res.render("home", { articles, isAuthenticated: req.isAuthenticated() });
+  res.render("adminMainPage", { articles, isAuthenticated: req.isAuthenticated() });
 }
 
-// Display the specified resource.
-async function show(req, res) {}
-
-// Show the form for creating a new resource
-async function create(req, res) {}
-
-// Store a newly created resource in storage.
-async function store(req, res) {}
-
-// Show the form for editing the specified resource.
-async function edit(req, res) {
-  const article = await Article.findByPk(req.params.id);
+async function getEditArticleForm(req, res) {
+  const article = await Article.findByPk(req.params.id, {
+    include: [User, { model: Comment, as: "comments" }],
+  });
   if (!article) {
     res.status(404).send("Not Found");
   } else {
-    res.render("adminEdit", { article, isAuthenticated: req.isAuthenticated() });
+    res.render("adminEditArticle", { article, isAuthenticated: req.isAuthenticated() });
   }
 }
 
-// Update the specified resource in storage.
-async function update(req, res) {
-  console.log(req.params);
-  const chosenArticle = await Article.findByPk(req.params.id);
-  console.log(chosenArticle);
-  await User.update(
-    { ...req.body },
-    {
-      where: { ...chosenArticle },
-    },
-  );
-  res.end(chosenArticle);
+async function updateArticleInfo(req, res) {
+  const form = formidable({
+    multiples: true,
+    uploadDir: path.join(__dirname, "../public/img"),
+    keepExtensions: true,
+  });
+  let articleId = req.params.id;
+  form.parse(req, async (error, fields, files) => {
+    await Article.update(
+      { ...fields, image: files.image.newFilename },
+      {
+        where: { id: articleId },
+      },
+    );
+  });
+  res.redirect("/admin");
 }
 
-// Remove the specified resource from storage.
-async function destroy(req, res) {
-  const chosenArticle = await Article.findByPk(req.params.id, {
-    include: [User, { model: Comment, as: "comments" }],
-  });
-  await User.destroy({
+async function destroyArticle(req, res) {
+  const article = await Article.findOne({ where: { id: req.params.id }, include: User });
+  await Article.destroy({
     where: {
-      ...chosenArticle,
+      id: req.params.id,
     },
   });
+  res.redirect("/admin");
 }
-
-// // Otros handlers...
-// // ...
 
 module.exports = {
-  homeAdmin,
-  // show,
-  // create,
-  // store,
-  // edit,
-  // update,
-  // destroy,
+  showEditPage,
+  getEditArticleForm,
+  updateArticleInfo,
+  destroyArticle,
 };

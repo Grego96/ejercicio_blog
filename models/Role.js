@@ -15,6 +15,13 @@ module.exports = (sequelize, Model, DataTypes) => {
             notEmpty:true,
           }
         },
+        code: {
+          type: DataTypes.BIGINT.UNSIGNED,
+          allowNull:false,
+          validate:{
+            notEmpty:true,
+          }
+        }
       },
       {
         sequelize,
@@ -22,5 +29,5 @@ module.exports = (sequelize, Model, DataTypes) => {
       },
     );
   
-    return Comment;
+    return Role;
   };

@@ -1,3 +1,5 @@
+const passport = require("passport");
+
 function showLogin(req, res) {
     if (!req.isAuthenticated()) {
         return res.render("login");
@@ -12,6 +14,13 @@ function showRegister(req, res) {
     res.redirect("/");
 }
 
+function login(req, res) {
+    passport.authenticate("local", {
+      successRedirect: req.session.redirectTo ? req.session.redirectTo : "/",
+      failureRedirect: "/login",
+    })(req, res);
+  }
+
 function logOutUser(req, res) {
     req.logout((err) => {
         if (err) {
@@ -25,5 +34,6 @@ function logOutUser(req, res) {
 module.exports = {
     showLogin,
     showRegister,
+    login,
     logOutUser
 };

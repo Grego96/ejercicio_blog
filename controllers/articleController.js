@@ -1,6 +1,6 @@
 const { Article, User, Comment } = require("../models");
 const { format } = require("date-fns");
-// Display a listing of the resource.
+
 async function api(req, res) {
   const apiArticle = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, as: "comments" }],
@@ -12,10 +12,18 @@ async function api(req, res) {
   }
 }
 
-// Display the specified resource.
-async function show(req, res) {
+async function getCreateArticleForm(req, res) {
+  if (req.isAuthenticated()) {
+    res.render("createArticle");
+  } else {
+    res.redirect("/login");
+  }
+}
+
+async function showSingleArticle(req, res) {
   const article = await Article.findByPk(req.params.id, {
     include: [User, { model: Comment, include: User }],
+    order: [[Comment, "createdAt", "DESC"]],
   });
   if (!article) {
     res.status(404).send("Not Found");
@@ -24,30 +32,25 @@ async function show(req, res) {
   }
 }
 
-// Show the form for creating a new resource
-async function create(req, res) {}
-
-// Store a newly created resource in storage.
-async function store(req, res) {}
-
-// Show the form for editing the specified resource.
-async function edit(req, res) {}
-
-// Update the specified resource in storage.
-async function update(req, res) {}
-
-// Remove the specified resource from storage.
-async function destroy(req, res) {}
-
-// Otros handlers...
-// ...
+async function createArticle(req, res) {
+  const form = formidable({
+    multiples: true,
+    uploadDir: path.join(__dirname, "../public/img"),
+    keepExtensions: true,
+  });
+  form.parse(req, async (error, fields, files) => {
+    await Article.create({
+      title: fields.title,
+      content: fields.content,
+      image: files.image.newFilename,
+      userId: req.user.id,
+    });
+    res.redirect("/");
+  });
+}
 
 module.exports = {
-  api,
-  show,
-  create,
-  store,
-  edit,
-  update,
-  destroy,
+  getCreateArticleForm,
+  showSingleArticle,
+  createArticle,
 };
